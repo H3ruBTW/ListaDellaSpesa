@@ -14,5 +14,11 @@ body, html {
 }
 
 h1 {
-    font-size: xx-large;
+    font-size: 40px;
+}
+
+#content {
+    color: #fff;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
 }
