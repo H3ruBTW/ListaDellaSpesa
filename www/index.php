@@ -8,7 +8,9 @@
     </head>
     <body>
         <div id="header">
-            <h1>SCANSIONE</h1>
+            <center>
+                <h1>SCANSIONE</h1>
+            </center>
         </div>
         <div id="content">
         </div>
