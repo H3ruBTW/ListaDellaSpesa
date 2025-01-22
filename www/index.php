@@ -19,8 +19,8 @@
                 QUI SOTTO
                 </p>
                 <form>
-                    <input type="text" name="barcode" placeholder="ES.: 2387456723563">
-                    <input type="submit">
+                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563"><br>
+                    <input id="button" type="submit" value="INVIA">
                 </form>
             </center>
         </div>
