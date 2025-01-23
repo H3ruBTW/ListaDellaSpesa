@@ -17,6 +17,11 @@ h1 {
     font-size: 40px;
 }
 
+center a{
+    text-decoration: none;
+    color: #fff;
+}
+
 #pages {
     background-color: #2e2e2e;
     width: 100%;

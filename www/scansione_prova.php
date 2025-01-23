@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     <body>
         <div id="header">
             <center>
-                <h1>PRODOTTO</h1>
+                <a href="index.php"><h1>PRODOTTO</h1></a>
             </center>
         </div>
         <div id="pages">
