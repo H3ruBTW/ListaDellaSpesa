@@ -38,10 +38,10 @@ center a{
     display: none; /* Chrome, Safari */
 }
 
+/* PER I PC */
 @media (min-width: 734px){
     #pages{
         justify-content: center;
-        align-items: center;
     }
 }
 
