@@ -45,12 +45,6 @@ center a{
     }
 }
 
-@media (max-width: 734px){
-    #button, input[type="submit"]{
-        padding: 0 8px;
-    }
-}
-
 nav ul {
     list-style-type: none;
     padding: 0;
