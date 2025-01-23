@@ -34,28 +34,20 @@ nav ul {
 nav ul li {
     background-color: #2a2a2a;
     display: inline-flex;
-    padding-right: 10px;
-    padding-left: 10px;
     margin: 0 0
 }
 
-input[type="submit"]{
-    background-color: none;
+#button{
     border: none;
     color: #fff;
     height: 50px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    padding: 0 0;
+    margin: 10px 0;
 }
 
-
-nav ul li:hover{
-    background-color: #252525;
-}
-
-nav ul li:active{
-    background-color: #1f1f1f;
+#button:hover{
+    background-color: #2a2a2a;
 }
 
 #content {
@@ -63,5 +55,3 @@ nav ul li:active{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
 }
-
-

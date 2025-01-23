@@ -35,14 +35,14 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="PANORAMICA" name="page" hidden>
-                            <input type="submit" value="PANORAMICA">
+                            <input id="button" type="submit" value="PANORAMICA">
                         </form>
                     </li>
                     <li>
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="VALORI NUTRIZIONALI" name="page" hidden>
-                            <input type="submit" value="VALORI NUTRIZIONALI">
+                            <input id="button" type="submit" value="VALORI NUTRIZIONALI">
                         </form>
                     </li>
                     
