@@ -34,6 +34,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
             <nav>
                 <ul>
                     <li>
+                        <!-- MOSTRA GLI ASPETTI PRINCIPALI DEL PRODOTTO CON I VOTI -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="PANORAMICA" name="page" hidden>
@@ -41,6 +42,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                     <li>
+                        <!-- MOSTRA L'ETICHETTA CON GLI INGREDIENTI E I VALORI NUTRIZIONALI -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="VALORI NUTRIZIONALI" name="page" hidden>
@@ -48,6 +50,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                     <li>
+                        <!-- MOSTRA I LIVELLI DI INGREDIENTI DANNOSI -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="SALUTE" name="page" hidden>
@@ -55,6 +58,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                     <li>
+                        <!-- MOSTRA L'IMPRONTA ECOLOGICA DEL PRODOTTO -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="AMBIENTE" name="page" hidden>
