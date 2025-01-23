@@ -42,11 +42,19 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                     <li>
-                        <!-- MOSTRA L'ETICHETTA CON GLI INGREDIENTI E I VALORI NUTRIZIONALI -->
+                        <!-- MOSTRA I VALORI NUTRIZIONALI -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="VALORI NUTRIZIONALI" name="page" hidden>
                             <input id="button" type="submit" value="VALORI NUTRIZIONALI">
+                        </form>
+                    </li>
+                    <li>
+                        <!-- MOSTRA GLI INGREDIENTI DEL PRODOTTO -->
+                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
+                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                            <input type="text" value="INGREDIENTI" name="page" hidden>
+                            <input id="button" type="submit" value="INGREDIENTI">
                         </form>
                     </li>
                     <li>
@@ -66,9 +74,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                 </ul>
-            </nav>
-                
-            
+            </nav> 
         </div>
         <div id="content">
             <center>
