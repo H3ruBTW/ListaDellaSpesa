@@ -13,6 +13,39 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     }
 
     $html = "<p>CODICE PRODOTTO: " . $BARCODE . "</p>";
+
+    switch ($PAGE) {
+        case 'PANORAMICA':
+            $html .= 
+            <<<COD
+            <p>PAGINA DI PANORAMICA</p>
+            COD;
+            break;
+        case 'VALORI NUTRIZIONALI':
+            $html .= 
+            <<<COD
+            <p>PAGINA DEI VALORI NUTRIZIONALI</p>
+            COD;
+            break;
+        case 'INGREDIENTI':
+            $html .= 
+            <<<COD
+            <p>PAGINA DEGLI INGREDENTI</p>
+            COD;
+            break;
+        case 'SALUTE':
+            $html .= 
+            <<<COD
+            <p>PAGINA DELLA SALUTE</p>
+            COD;
+            break;
+        case 'AMBIENTE':
+            $html .= 
+            <<<COD
+            <p>PAGINA DELL'IMPRONTA AMBIENTALE</p>
+            COD;
+            break;
+    }
 }
 ?>
 
@@ -66,7 +99,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                         </form>
                     </li>
                     <li>
-                        <!-- MOSTRA L'IMPRONTA ECOLOGICA DEL PRODOTTO -->
+                        <!-- MOSTRA L'IMPRONTA AMBIENTALE DEL PRODOTTO -->
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
                             <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="AMBIENTE" name="page" hidden>
