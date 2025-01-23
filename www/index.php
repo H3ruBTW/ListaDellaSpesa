@@ -1,10 +1,11 @@
 <?php
 $html = "";
 
-if($_SERVER['REQUEST_METHOD']=="get"){
+if($_SERVER['REQUEST_METHOD']=="GET"){
+
     if(isset($_GET['error'])){
-        $error = $_GET['error'];
-        $html = "<p id=\"error\">$error</p><br>";
+        $error = htmlspecialchars($_GET['error']);
+        $html = "<p id=\"error\">$error</p>";
     } 
 }
 ?>
@@ -32,7 +33,7 @@ if($_SERVER['REQUEST_METHOD']=="get"){
                 </p>
                 <?php echo $html ?>
                 <form action="scansione_prova.php" method="post">
-                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" required><br>
+                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563"><br>
                     <input id="button" type="submit" value="INVIA">
                 </form>
             </center>

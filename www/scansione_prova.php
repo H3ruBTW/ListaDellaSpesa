@@ -2,12 +2,16 @@
 $html = "";
 
 if($_SERVER['REQUEST_METHOD']=="POST"){
-    // QUESTA FUNZIONE RIMUOVE TUTTI GLI SPAZI COMPRESI LE TABULAZIONI, ECC.
-    $BARCODE = $_POST['barcode'];
-    
+    if(!empty($_POST['barcode'])){
+        $BARCODE = htmlspecialchars($_POST['barcode']);
+    } else {
+        $url = "index.php?error=Non è stato inserito il codice a barre&from=" . basename($_SERVER['PHP_SELF']);
+        header("Location: $url");
+        exit();
+    }
 
     if(isset($_POST['page'])){
-        $PAGE = $_POST['page'];
+        $PAGE = htmlspecialchars($_POST['page']);
     } else {
         $PAGE = "PANORAMICA";
     }
