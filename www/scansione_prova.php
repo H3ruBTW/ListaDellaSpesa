@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         $PAGE = "PANORAMICA";
     }
 
-    $html = "<p>CODICE PRODOTTO: " . $BARCODE . "</p>";
+    $html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p>";
 
     switch ($PAGE) {
         case 'PANORAMICA':
