@@ -50,7 +50,20 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                             <input id="button" type="submit" value="VALORI NUTRIZIONALI">
                         </form>
                     </li>
-                    
+                    <li>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
+                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                            <input type="text" value="SALUTE" name="page" hidden>
+                            <input id="button" type="submit" value="SALUTE">
+                        </form>
+                    </li>
+                    <li>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
+                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                            <input type="text" value="AMBIENTE" name="page" hidden>
+                            <input id="button" type="submit" value="AMBIENTE">
+                        </form>
+                    </li>
                 </ul>
             </nav>
                 
