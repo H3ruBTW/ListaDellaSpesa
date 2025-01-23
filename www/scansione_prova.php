@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     }
 
     if(isset($_POST['page'])){
-        $PAGE = htmlspecialchars($_POST['page']);
+        $PAGE = $_POST['page'];
     } else {
         $PAGE = "PANORAMICA";
     }
