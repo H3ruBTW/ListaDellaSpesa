@@ -38,12 +38,14 @@ nav ul li {
 }
 
 #button{
+    background-color: #2a2a2a;
     border: none;
     color: #fff;
     height: 50px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
-    margin: 10px 0;
+    padding: 0 10px;
+    
 }
 
 #button:hover{
