@@ -29,11 +29,15 @@ center a{
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-x: auto; /* Abilita lo scorrimento orizzontale */
+    white-space: nowrap; /* Impedisce il ritorno a capo degli elementi */
 }
 
 nav ul {
     list-style-type: none;
     padding: 0;
+    display: inline-flex; /* Dispone le voci in una riga */
+    white-space: nowrap; /* Mantiene gli elementi su una riga */
 }
 
 nav ul li {

@@ -2,7 +2,12 @@
 $html = "";
 
 if($_SERVER['REQUEST_METHOD']=="POST"){
-    $BARCODE = $_POST['barcode'];
+    if(isset($_POST['barcode'])){
+        $BARCODE = $_POST['barcode'];
+    } else {
+        $url = "index.php?error=Non hai inserito un Barcode&from=" . basename($_SERVER['PHP_SELF']);
+        header("Locator: $url");
+    }
 
     if(isset($_POST['page'])){
         $PAGE = $_POST['page'];
