@@ -2,12 +2,12 @@
 $html = "";
 
 if($_SERVER['REQUEST_METHOD']=="POST"){
-    define($BARCODE, $_POST["barcode"]);
+    $BARCODE = $_POST['barcode'];
 
     if(isset($_POST['page'])){
-        define($PAGE, $_POST["page"]);
+        $PAGE = $_POST['page'];
     } else {
-        define($PAGE, "PANORAMICA");
+        $PAGE = "PANORAMICA";
     }
 
     $html = "<p>CODICE PRODOTTO: " . $BARCODE . "</p>";
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                 <ul>
                     <li>
                         <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" hidden>
+                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
                             <input type="text" value="PANORAMICA" name="page" hidden>
                             <input type="submit" value="PANORAMICA">
                         </form>

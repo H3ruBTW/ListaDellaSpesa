@@ -40,12 +40,21 @@ nav ul li {
 }
 
 input[type="submit"]{
-    background-color: #2a2a2a;
+    background-color: none;
     border: none;
     color: #fff;
     height: 50px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: bold;
+}
+
+
+nav ul li:hover{
+    background-color: #252525;
+}
+
+nav ul li:active{
+    background-color: #252525;
 }
 
 #content {

@@ -18,7 +18,7 @@
                 INSERIRE IL CODICE A BARRE<br>
                 QUI SOTTO
                 </p>
-                <form method="POST" action="scansione_prova.php">
+                <form action="scansione_prova.php" method="post">
                     <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563"><br>
                     <input id="button" type="submit" value="INVIA">
                 </form>
