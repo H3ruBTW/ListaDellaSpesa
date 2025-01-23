@@ -31,7 +31,6 @@ if($_SERVER['REQUEST_METHOD']=="get"){
                 QUI SOTTO
                 </p>
                 <?php echo $html ?>
-                <p id="error2">Non hai inserito un codice a barre</p>
                 <form action="scansione_prova.php" method="post">
                     <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" required><br>
                     <input id="button" type="submit" value="INVIA">
