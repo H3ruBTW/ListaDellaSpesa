@@ -2,7 +2,8 @@
 $html = "";
 
 if($_SERVER['REQUEST_METHOD']=="POST"){
-    if(isset($_POST['barcode'])){
+    // QUESTA FUNZIONE RIMUOVE TUTTI GLI SPAZI COMPRESI LE TABULAZIONI, ECC.
+    if(preg_replace('/\s+/', '', $_POST['barcode'])!=""){
         $BARCODE = $_POST['barcode'];
     } else {
         $url = "index.php?error=Non hai inserito un Barcode&from=" . basename($_SERVER['PHP_SELF']);
