@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD']=="get"){
                 </p>
                 <?php echo $html ?>
                 <form action="scansione_prova.php" method="post">
-                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563"><br>
+                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" required><br>
                     <input id="button" type="submit" value="INVIA">
                 </form>
             </center>
