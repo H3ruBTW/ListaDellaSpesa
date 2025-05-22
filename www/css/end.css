@@ -81,6 +81,11 @@ nav ul li {
     color: #fff;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 20px;
+    background-color: #505050;
+    margin: 30px;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid #fff;
 }
 
 * {

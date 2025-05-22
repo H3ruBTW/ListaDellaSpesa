@@ -1,56 +1,62 @@
 <?php
+session_start();
 $html = "";
 
-if($_SERVER['REQUEST_METHOD']=="POST"){
-    if(!empty($_POST['barcode'])){
-        $BARCODE = htmlspecialchars($_POST['barcode']);
-    } else {
-        $url = "index.php?error=Non è stato inserito il codice a barre&from=" . basename($_SERVER['PHP_SELF']);
-        header("Location: $url");
-        exit();
-    }
+if(!empty($_GET['barcode'])){
+    $BARCODE = htmlspecialchars($_GET['barcode']);
 
-    if(isset($_POST['page'])){
-        $PAGE = $_POST['page'];
-    } else {
-        $PAGE = "PANORAMICA";
-    }
+    //AVVERRA RICERCA
+    if(1){
+        // Se esiste già, lo rimuovo
+        if(($key = array_search($BARCODE, $_SESSION['last_research'])) !== false) {
+            unset($_SESSION['last_research'][$key]);
+            // Riordino gli indici
+            $array = array_values($_SESSION['last_research']);
+        }
 
-    $html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p>";
-
-    switch ($PAGE) {
-        case 'PANORAMICA':
-            $html .= 
-            <<<COD
-            <p>PAGINA DI PANORAMICA</p>
-            COD;
-            break;
-        case 'VALORI NUTRIZIONALI':
-            $html .= 
-            <<<COD
-            <p>PAGINA DEI VALORI NUTRIZIONALI</p>
-            COD;
-            break;
-        case 'INGREDIENTI':
-            $html .= 
-            <<<COD
-            <p>PAGINA DEGLI INGREDENTI</p>
-            COD;
-            break;
-        case 'SALUTE':
-            $html .= 
-            <<<COD
-            <p>PAGINA DELLA SALUTE</p>
-            COD;
-            break;
-        case 'AMBIENTE':
-            $html .= 
-            <<<COD
-            <p>PAGINA DELL'IMPRONTA AMBIENTALE</p>
-            COD;
-            break;
+        array_unshift($_SESSION['last_research'], $BARCODE);
     }
+} else {
+    $url = "index.php?error=Non è stato inserito il codice a barre&from=" . basename($_SERVER['PHP_SELF']);
+    header("Location: $url");
+    exit();
 }
+
+if(isset($_POST['page'])){
+    $PAGE = $_POST['page'];
+} else {
+    $PAGE = "PANORAMICA";
+}
+
+$html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p>";
+
+switch ($PAGE) {
+    case 'PANORAMICA':
+        $html .= 
+        <<<COD
+        <p>PAGINA DI PANORAMICA</p>
+        COD;
+        break;
+    case 'VALORI NUTRIZIONALI':
+        $html .= 
+        <<<COD
+        <p>PAGINA DEI VALORI NUTRIZIONALI</p>
+        COD;
+        break;
+    case 'INGREDIENTI':
+        $html .= 
+        <<<COD
+        <p>PAGINA DEGLI INGREDENTI</p>
+        COD;
+        break;
+    case 'SALUTE':
+        $html .= 
+        <<<COD
+        <p>PAGINA DELLA SALUTE</p>
+        COD;
+        break;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -72,42 +78,30 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
                 <ul>
                     <li>
                         <!-- MOSTRA GLI ASPETTI PRINCIPALI DEL PRODOTTO CON I VOTI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
                             <input type="text" value="PANORAMICA" name="page" hidden>
                             <input id="button" type="submit" value="PANORAMICA">
                         </form>
                     </li>
                     <li>
                         <!-- MOSTRA I VALORI NUTRIZIONALI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
                             <input type="text" value="VALORI NUTRIZIONALI" name="page" hidden>
                             <input id="button" type="submit" value="VALORI NUTRIZIONALI">
                         </form>
                     </li>
                     <li>
                         <!-- MOSTRA GLI INGREDIENTI DEL PRODOTTO -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
                             <input type="text" value="INGREDIENTI" name="page" hidden>
                             <input id="button" type="submit" value="INGREDIENTI">
                         </form>
                     </li>
                     <li>
                         <!-- MOSTRA I LIVELLI DI INGREDIENTI DANNOSI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
+                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
                             <input type="text" value="SALUTE" name="page" hidden>
                             <input id="button" type="submit" value="SALUTE">
-                        </form>
-                    </li>
-                    <li>
-                        <!-- MOSTRA L'IMPRONTA AMBIENTALE DEL PRODOTTO -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] ?> method="post">
-                            <input type="text" value="<?php echo $BARCODE ?>" name="barcode" hidden>
-                            <input type="text" value="AMBIENTE" name="page" hidden>
-                            <input id="button" type="submit" value="AMBIENTE">
                         </form>
                     </li>
                 </ul>
