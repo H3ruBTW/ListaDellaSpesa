@@ -5,9 +5,28 @@ $html = "";
 if(!empty($_GET['barcode'])){
     $BARCODE = htmlspecialchars($_GET['barcode']);
 
+    $url = "https://world.openfoodfacts.org/api/v0/product/" . $BARCODE ." .json";
+
+    // Scarico i dati JSON dall'API
+    $json = file_get_contents($url);
+
+    if ($json === false) {
+        $url = "index.php?error=Errore di retrive dei dati";
+        header("Location: $url");
+        exit();
+    }
+
+    // Decodifico il JSON in array PHP
+    $data = json_decode($json, true);
+
+    if ($data === null) {
+        $url = "index.php?error=Errore di retrive dei dati";
+        header("Location: $url");
+        exit();
+    }
+
     //AVVERRA RICERCA
-    if(1){
-        // Se esiste già, lo rimuovo
+    if ($data['status'] == 1){
         if(($key = array_search($BARCODE, $_SESSION['last_research'])) !== false) {
             unset($_SESSION['last_research'][$key]);
             // Riordino gli indici
@@ -15,9 +34,14 @@ if(!empty($_GET['barcode'])){
         }
 
         array_unshift($_SESSION['last_research'], $BARCODE);
+    } else {
+        $url = "index.php?error=Prodotto non trovato";
+        header("Location: $url");
+        exit();
     }
+        
 } else {
-    $url = "index.php?error=Non è stato inserito il codice a barre&from=" . basename($_SERVER['PHP_SELF']);
+    $url = "index.php?error=Non è stato inserito il codice a barre";
     header("Location: $url");
     exit();
 }
@@ -34,25 +58,25 @@ switch ($PAGE) {
     case 'PANORAMICA':
         $html .= 
         <<<COD
-        <p>PAGINA DI PANORAMICA</p>
+        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DI PANORAMICA</span></p>
         COD;
         break;
     case 'VALORI NUTRIZIONALI':
         $html .= 
         <<<COD
-        <p>PAGINA DEI VALORI NUTRIZIONALI</p>
+        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DEI VALORI NUTRIZIONALI</span></p>
         COD;
         break;
     case 'INGREDIENTI':
         $html .= 
         <<<COD
-        <p>PAGINA DEGLI INGREDENTI</p>
+        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
         COD;
         break;
     case 'SALUTE':
         $html .= 
         <<<COD
-        <p>PAGINA DELLA SALUTE</p>
+        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DELLA SALUTE</span></p>
         COD;
         break;
 }

@@ -25,8 +25,51 @@ $results = "";
 if(!isset($_SESSION['last_research'])){
     $_SESSION['last_research'] = array();
 } else {
+    $i=0;
+
     foreach($_SESSION['last_research'] as $output){
-        $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $output . "</a><br>";
+        if($i<10){
+
+            $results .= "<div id=\"ris\">";
+
+            $url = "https://world.openfoodfacts.org/api/v0/product/" . $output ." .json";
+
+            // Scarico i dati JSON dall'API
+            $json = file_get_contents($url);
+
+            if ($json === false) {
+                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $output . "</a><br>";
+                $results .= "</div>";
+                continue;
+            }
+
+            // Decodifico il JSON in array PHP
+            $data = json_decode($json, true);
+
+            if ($data === null) {
+                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $output . "</a><br>";
+                $results .= "</div>";
+                continue;
+            }
+
+            //AVVERRA RICERCA
+            if ($data['status'] == 1){
+                $product = $data['product'];
+
+                $imageUrl = $product['image_url'] ?? null;
+
+                if ($imageUrl) {
+                    $results .= "<img src=\"$imageUrl\" alt=\"Immagine prodotto\" style=\"max-width:50px;\">";
+                }
+
+                $nome = $product['product_name'] ?? 'Nome non disponibile';
+                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $nome . "</a><br>";
+            } 
+            $results .= "</div>";
+        } else {
+            break;
+        }
+        
     }
 }
 ?>
