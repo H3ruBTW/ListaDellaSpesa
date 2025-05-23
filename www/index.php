@@ -30,16 +30,16 @@ if(!isset($_SESSION['last_research'])){
     foreach($_SESSION['last_research'] as $output){
         if($i<10){
 
-            $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\"><div id=\"ris\">";
+            $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\"><button id=\"ris\">";
 
-            $url = "https://world.openfoodfacts.org/api/v0/product/" . $output ." .json";
+            $url = "https://world.openfoodfacts.org/api/v0/product/" . $output .".json";
 
             // Scarico i dati JSON dall'API
             $json = file_get_contents($url);
 
             if ($json === false) {
-                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $output . "</a><br>";
-                $results .= "</div>";
+                $results .= $output . "<br>";
+                $results .= "</button></a>";
                 continue;
             }
 
@@ -47,8 +47,8 @@ if(!isset($_SESSION['last_research'])){
             $data = json_decode($json, true);
 
             if ($data === null) {
-                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $output . "</a><br>";
-                $results .= "</div>";
+                $results .= $output . "<br>";
+                $results .= "</button></a>";
                 continue;
             }
 
@@ -59,13 +59,13 @@ if(!isset($_SESSION['last_research'])){
                 $imageUrl = $product['image_url'] ?? null;
 
                 if ($imageUrl) {
-                    $results .= "<img src=\"$imageUrl\" alt=\"Immagine prodotto\" style=\"max-width:50px;\">";
+                    $results .= "<br><img src=\"$imageUrl\" alt=\"Immagine prodotto\" style=\"max-width:50px;\">";
                 }
 
                 $nome = $product['product_name'] ?? 'Nome non disponibile';
-                $results .= "<br>" . $nome . "<br>";
+                $results .= "<br><p>" . $nome . "</p>";
             } 
-            $results .= "</div></a>";
+            $results .= "</button></a><br>";
         } else {
             break;
         }

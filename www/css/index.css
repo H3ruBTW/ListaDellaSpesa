@@ -76,7 +76,19 @@ a:active {
     padding: 10px;
     border-radius: 10px;
     border: solid white;
-    margin-left: 45%;
-    margin-right: 45%;
+    width: 200px;
     margin-bottom: 5px;
+}
+
+#ris:hover {
+    opacity: 0.9;
+}
+
+#ris:active {
+    opacity: 0.8;
+}
+
+p {
+    color:white;
+    font-family: Arial, sans-serif;
 }

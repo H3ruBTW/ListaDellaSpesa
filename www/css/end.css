@@ -98,5 +98,35 @@ nav ul li {
     border: solid white;
     border-radius: 10px;
     text-align: left;
-    padding-left: 5px;
+    padding-left: 10px;
+}
+
+#infoN:hover {
+    cursor:help ;
+}
+
+#infoNS:hover {
+    cursor:help ;
+}
+
+.box {
+    position: fixed; /* per posizionamento preciso vicino al mouse */
+    background-color: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    max-width: 280px;
+    pointer-events: none; /* fa passare eventi al mouse */
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 1000;
+}
+
+.box.visible {
+    opacity: 0.9;
+}
+
+img {
+    margin: 10px
 }

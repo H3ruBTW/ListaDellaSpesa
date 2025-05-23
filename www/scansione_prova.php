@@ -54,11 +54,13 @@ if(isset($_POST['page'])){
 
 $product = $data['product'];
 
-$html = "<p>CODICE PRODOTTO:<br>";
+$imageUrl = $product['image_url'] ?? null;
+
+$html = "<b>CODICE PRODOTTO:<br>";
 
 $barcode_url = "https://barcode.tec-it.com/barcode.ashx?data=" . $BARCODE . " &code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=png";
 
-$html .= "<img src='" . $barcode_url . "' alt='Barcode'><br>";
+$html .= "<img src='" . $barcode_url . "' alt='Barcode' style='border-radius: 10px'><br>IMMAGINE PRODOTTO:<br><img src='{$imageUrl}' width='100px' style='border-radius: 10px'></b>";
 
 switch ($PAGE) {
     case 'PANORAMICA':
@@ -69,6 +71,8 @@ switch ($PAGE) {
         $categories = $product['categories'] ?? 'Categoria non definita';
         $nova_group = $product['nova_group'] ?? '';
         $nova_img = $product['nova_group'] ? "https://static.openfoodfacts.org/images/misc/nova-group-{$nova_group}.svg" : '';
+        $nutriscore = strtolower($product['nutriscore_grade'] ?? '');
+        $nutri_img = $nutriscore ? "https://static.openfoodfacts.org/images/misc/nutriscore-" . $nutriscore . ".svg" : "";
     
         switch($nova_group){
             case "1":
@@ -87,18 +91,41 @@ switch ($PAGE) {
                 $phraseN = "Il grado di processazione (NOVA) non è disponibile per questo prodotto.";
         }
 
+        switch ($nutriscore) {
+            case 'a':
+                $phraseNS = "Questo prodotto ha un'eccellente qualità nutrizionale (Nutri-Score A).";
+                break;
+            case 'b':
+                $phraseNS = "Buona qualità nutrizionale secondo il Nutri-Score (B).";
+                break;
+            case 'c':
+                $phraseNS = "Qualità nutrizionale intermedia (Nutri-Score C).";
+                break;
+            case 'd':
+                $phraseNS = "Bassa qualità nutrizionale: consumare con moderazione (Nutri-Score D).";
+                break;
+            case 'e':
+                $phraseNS = "Qualità nutrizionale molto bassa (Nutri-Score E). Limitare il consumo.";
+                break;
+            default:
+                $phraseNS = "Nutri-Score non disponibile per questo prodotto.";
+        }
+
         $html .= 
         <<<COD
-        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DI PANORAMICA</span></p>
+        <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DI PANORAMICA</span></p>
         <div id="info">
             <p style="line-height: 1.5;"><b>Nome del Prodotto:</b> {$name}<br><br>
             <b>Brand:</b> {$brand}<br><br>
             <b>Peso/Quantità:</b> {$quantity}<br><br>
             <b>Confezionamento:</b> {$packaging}<br><br>
             <b>Categorie Ulteriori:</b> {$categories}<br><br>
-            <b>PUNTEGGIO NOVA</b><br>
+            <b>PUNTEGGIO NOVA&emsp;</b><span id="infoN">?</span><br>
             <img src="{$nova_img}"><br>
-            <em>{$phraseN}</em>
+            <em>{$phraseN}</em><br><br>
+            <b>PUNTEGGIO NUTRISCORE&emsp;</b><span id="infoNS">?</span><br>
+            <img src="{$nutri_img}"><br>
+            <em>{$phraseNS}</em>
             </p>
         </div>
         COD;
@@ -106,13 +133,13 @@ switch ($PAGE) {
     case 'VALORI NUTRIZIONALI':
         $html .= 
         <<<COD
-        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DEI VALORI NUTRIZIONALI</span></p>
+        <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEI VALORI NUTRIZIONALI</span></p>
         COD;
         break;
     case 'INGREDIENTI':
         $html .= 
         <<<COD
-        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
+        <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
         COD;
         break;
 }
@@ -125,6 +152,7 @@ switch ($PAGE) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/end.css">
+        <script src="js/box.js" defer></script>
         <title>Scansione</title>
     </head>
     <body>
@@ -164,6 +192,18 @@ switch ($PAGE) {
             <center>
                 <?php echo $html ?>
             </center>
+        </div>
+
+        <div id="boxN" class="box">
+            <p>Il Nutri-Score è un’etichetta a colori che valuta la qualità nutrizionale degli alimenti su una scala da A a E.<br> 
+                Il punteggio tiene conto di nutrienti “positivi” come fibre, proteine e frutta/verdura, e nutrienti “negativi” come zuccheri, grassi saturi e sale.<br> 
+                Un Nutri-Score A indica un prodotto nutrizionalmente più sano, mentre un E segnala un alimento da consumare con moderazione.</p>
+        </div>
+
+        <div id="boxNS" class="box">
+            <p>Il NOVA Score classifica gli alimenti in base al grado di trasformazione industriale.<br> 
+                I prodotti sono divisi in quattro gruppi: 1 per alimenti naturali o minimamente processati, fino a 4 per alimenti ultra-processati che spesso contengono additivi, zuccheri o grassi aggiunti.<br> 
+                Questo sistema aiuta a comprendere l’impatto della lavorazione sulla qualità e salubrità degli alimenti.</p>
         </div>
     </body>
 </html>
