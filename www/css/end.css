@@ -91,3 +91,12 @@ nav ul li {
 * {
     box-sizing: border-box;
 }
+
+#info {
+    width: 800px;
+    background-color: #606060;
+    border: solid white;
+    border-radius: 10px;
+    text-align: left;
+    padding-left: 5px;
+}

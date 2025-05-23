@@ -52,24 +52,55 @@ if(isset($_POST['page'])){
     $PAGE = "PANORAMICA";
 }
 
-$html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p><br>";
+$product = $data['product'];
 
-$barcode_path = substr($BARCODE, 0, 3) . '/' . substr($BARCODE, 3, 3) . '/' . substr($BARCODE, 6, 3) . '/' . substr($BARCODE, 9);
-$barcode_image_url = "https://images.openfoodfacts.org/images/products/" . $barcode_path . "/code.jpg";
+$html = "<p>CODICE PRODOTTO:<br>";
 
-// Verifica se l'immagine esiste
-$headers = get_headers($barcode_image_url, 1);
-if (strpos($headers[0], '200') !== false) {
-    $html .= "<img src=\"" . $barcode_image_url . "\" alt='Immagine del codice a barre'>";
-} else {
-    $html .= "Immagine del codice a barre non disponibile.";
-}
+$barcode_url = "https://barcode.tec-it.com/barcode.ashx?data=" . $BARCODE . " &code=Code128&multiplebarcodes=false&translate-esc=false&unit=Fit&dpi=96&imagetype=png";
+
+$html .= "<img src='" . $barcode_url . "' alt='Barcode'><br>";
 
 switch ($PAGE) {
     case 'PANORAMICA':
+        $name = $product['product_name'] ?? 'Nome non disponibile';
+        $brand = $product['brands'] ?? 'Marca sconosciuta';
+        $quantity = $product['quantity'] ?? 'Quantità non specificata';
+        $packaging = $product['packaging'] ?? 'Confezione sconosciuta';
+        $categories = $product['categories'] ?? 'Categoria non definita';
+        $nova_group = $product['nova_group'] ?? '';
+        $nova_img = $product['nova_group'] ? "https://static.openfoodfacts.org/images/misc/nova-group-{$nova_group}.svg" : '';
+    
+        switch($nova_group){
+            case "1":
+                $phraseN = "Questo prodotto è naturale o minimamente trasformato. È composto principalmente da ingredienti semplici, senza alterazioni industriali significative.";
+                break;
+            case "2":
+                $phraseN = "Questo prodotto contiene ingredienti trasformati usati in cucina, come oli, zuccheri o sale. È spesso usato per preparare piatti casalinghi.";
+                break;
+            case "3":
+                $phraseN = "Questo alimento è stato trasformato attraverso processi industriali moderati. Può contenere zuccheri, oli, sale e additivi semplici.";
+                break;
+            case "4":
+                $phraseN = "Questo prodotto è classificato come ultra-trasformato. Contiene ingredienti industriali e additivi non usati comunemente in cucina, come aromi, coloranti e emulsionanti.";
+                break;
+            default:
+                $phraseN = "Il grado di processazione (NOVA) non è disponibile per questo prodotto.";
+        }
+
         $html .= 
         <<<COD
         <p><span style="font-size: 30px; font-weight:bold;">PAGINA DI PANORAMICA</span></p>
+        <div id="info">
+            <p style="line-height: 1.5;"><b>Nome del Prodotto:</b> {$name}<br><br>
+            <b>Brand:</b> {$brand}<br><br>
+            <b>Peso/Quantità:</b> {$quantity}<br><br>
+            <b>Confezionamento:</b> {$packaging}<br><br>
+            <b>Categorie Ulteriori:</b> {$categories}<br><br>
+            <b>PUNTEGGIO NOVA</b><br>
+            <img src="{$nova_img}"><br>
+            <em>{$phraseN}</em>
+            </p>
+        </div>
         COD;
         break;
     case 'VALORI NUTRIZIONALI':
