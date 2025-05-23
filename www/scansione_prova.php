@@ -52,7 +52,18 @@ if(isset($_POST['page'])){
     $PAGE = "PANORAMICA";
 }
 
-$html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p>";
+$html = "<p>CODICE PRODOTTO:<br>" . $BARCODE . "</p><br>";
+
+$barcode_path = substr($BARCODE, 0, 3) . '/' . substr($BARCODE, 3, 3) . '/' . substr($BARCODE, 6, 3) . '/' . substr($BARCODE, 9);
+$barcode_image_url = "https://images.openfoodfacts.org/images/products/" . $barcode_path . "/code.jpg";
+
+// Verifica se l'immagine esiste
+$headers = get_headers($barcode_image_url, 1);
+if (strpos($headers[0], '200') !== false) {
+    $html .= "<img src=\"" . $barcode_image_url . "\" alt='Immagine del codice a barre'>";
+} else {
+    $html .= "Immagine del codice a barre non disponibile.";
+}
 
 switch ($PAGE) {
     case 'PANORAMICA':
@@ -71,12 +82,6 @@ switch ($PAGE) {
         $html .= 
         <<<COD
         <p><span style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
-        COD;
-        break;
-    case 'SALUTE':
-        $html .= 
-        <<<COD
-        <p><span style="font-size: 30px; font-weight:bold;">PAGINA DELLA SALUTE</span></p>
         COD;
         break;
 }
@@ -119,13 +124,6 @@ switch ($PAGE) {
                         <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
                             <input type="text" value="INGREDIENTI" name="page" hidden>
                             <input id="button" type="submit" value="INGREDIENTI">
-                        </form>
-                    </li>
-                    <li>
-                        <!-- MOSTRA I LIVELLI DI INGREDIENTI DANNOSI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
-                            <input type="text" value="SALUTE" name="page" hidden>
-                            <input id="button" type="submit" value="SALUTE">
                         </form>
                     </li>
                 </ul>

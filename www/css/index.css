@@ -71,5 +71,12 @@ a:active {
 
 #ris {
     justify-content: center;
-    
+    text-align: center;
+    background-color: #606060;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid white;
+    margin-left: 45%;
+    margin-right: 45%;
+    margin-bottom: 5px;
 }

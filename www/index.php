@@ -30,7 +30,7 @@ if(!isset($_SESSION['last_research'])){
     foreach($_SESSION['last_research'] as $output){
         if($i<10){
 
-            $results .= "<div id=\"ris\">";
+            $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\"><div id=\"ris\">";
 
             $url = "https://world.openfoodfacts.org/api/v0/product/" . $output ." .json";
 
@@ -63,9 +63,9 @@ if(!isset($_SESSION['last_research'])){
                 }
 
                 $nome = $product['product_name'] ?? 'Nome non disponibile';
-                $results .= "<a href=\"scansione_prova.php?barcode=" . $output . "\">" . $nome . "</a><br>";
+                $results .= "<br>" . $nome . "<br>";
             } 
-            $results .= "</div>";
+            $results .= "</div></a>";
         } else {
             break;
         }
