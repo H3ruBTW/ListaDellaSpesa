@@ -135,6 +135,41 @@ switch ($PAGE) {
         <<<COD
         <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEI VALORI NUTRIZIONALI</span></p>
         COD;
+
+        $nutriments = $product['nutriments'];
+
+        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Porzione Consigliata</th><th>Per conferzione</th><th>Unità</th><tr>";
+
+        
+
+        foreach ($nutriments as $key => $value) {
+            if (strpos($key, '_100g') !== false) {
+
+                $nutrient = str_replace('_100g', '', $key);
+
+                switch ($nutrient) {
+                    case 'carbohydrates':
+                        $nutriente = "Carboidrati";
+                        $per100g = $nutriments[$nutrient . '_100g'] ?? 'N/A';
+                        $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
+                        $perPackage = 
+                        $unit = $nutriments[$nutrient . '_unit'] ?? '';    
+                        $html .= "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($unit) . "</td></tr>";
+                        break;
+                    
+                } 
+                
+            }
+        }
+
+
+
+                
+
+
+    $results .= "</table>";
+
+        $html .= "</table>";
         break;
     case 'INGREDIENTI':
         $html .= 
@@ -152,6 +187,7 @@ switch ($PAGE) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/end.css">
+        <link rel="stylesheet" href="css/table.css">
         <script src="js/box.js" defer></script>
         <title>Scansione</title>
     </head>
