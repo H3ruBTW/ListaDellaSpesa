@@ -131,45 +131,48 @@ switch ($PAGE) {
         COD;
         break;
     case 'VALORI NUTRIZIONALI':
+        $nutri_img = $product['image_nutrition_url'];    
+
         $html .= 
         <<<COD
         <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEI VALORI NUTRIZIONALI</span></p>
+        <div id="info">
         COD;
 
-        $nutriments = $product['nutriments'];
+        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Per Porzione Consigliata</th><th>Per confezione</th><th>Unità</th><tr>";
 
-        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Porzione Consigliata</th><th>Per conferzione</th><th>Unità</th><tr>";
+        $html .= RetriveValNut("energy", "Energia", $product);
 
+        $html .= RetriveValNut("energy-kcal", "--->", $product);
+
+        $html .= RetriveValNut("fat", "Grassi", $product);
+
+        $html .= RetriveValNut("saturated-fat", "---> Di Cui Saturi", $product);
+
+        $html .= RetriveValNut("carbohydrates", "Carboidrati", $product);
         
+        $html .= RetriveValNut("sugars", "---> Di Cui Zuccheri", $product);
+        
+        $html .= RetriveValNut("proteins", "Proteine", $product);
+        
+        $html .= RetriveValNut("salt", "Sali", $product);
+        
+        $html .= RetriveValNut("fiber", "Fibre", $product);
 
-        foreach ($nutriments as $key => $value) {
-            if (strpos($key, '_100g') !== false) {
+        $html .= 
+        <<<COD
+        </table>
+        <p><b>Etichetta</b>
+        <img src='{$nutri_img}'><br>
+        <b>Fattori Positivi</b><br><span style="color:green">
+        COD;
 
-                $nutrient = str_replace('_100g', '', $key);
-
-                switch ($nutrient) {
-                    case 'carbohydrates':
-                        $nutriente = "Carboidrati";
-                        $per100g = $nutriments[$nutrient . '_100g'] ?? 'N/A';
-                        $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
-                        $perPackage = 
-                        $unit = $nutriments[$nutrient . '_unit'] ?? '';    
-                        $html .= "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($unit) . "</td></tr>";
-                        break;
-                    
-                } 
-                
-            }
+        if($product["fiber_100g"]){
+            if()
+            $html .= "Ottima fonte di fibre ({$fiber} per ogni 100 grammi)";
         }
 
-
-
-                
-
-
-    $results .= "</table>";
-
-        $html .= "</table>";
+        $html .= "</p></div>";
         break;
     case 'INGREDIENTI':
         $html .= 
@@ -177,6 +180,17 @@ switch ($PAGE) {
         <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
         COD;
         break;
+}
+
+function RetriveValNut ($nutrient, $nutriente, $product){
+    $nutriments = $product['nutriments'];
+    $quantity = $product['quantity'] ?? 0;
+
+    $per100g = $nutriments[$nutrient . '_100g'] ?? 'N/A';
+    $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
+    $perPackage = ($quantity != 0 && $per100g != "N/A") ? ($quantity/100)*$per100g : "N/A";
+    $unit = $nutriments[$nutrient . '_unit'] ?? '';    
+    return "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($perPackage) . "</td><td>". htmlspecialchars($unit) . "</td></tr>";
 }
 
 ?>
