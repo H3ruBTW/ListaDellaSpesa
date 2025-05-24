@@ -62,7 +62,7 @@ if(!isset($_SESSION['last_research'])){
                     $results .= "<br><img src=\"$imageUrl\" alt=\"Immagine prodotto\" style=\"max-width:50px;\">";
                 }
 
-                $nome = $product['product_name'] ?? 'Nome non disponibile';
+                $nome = strtoupper($product['product_name']) ?? 'Nome non disponibile';
                 $results .= "<br><p>" . $nome . "</p>";
             } 
             $results .= "</button></a><br>";
@@ -80,7 +80,6 @@ if(!isset($_SESSION['last_research'])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/index.css">
-        <script src="js/index.js" defer></script>
         <title>Scansione</title>
     </head>
     <body>
@@ -89,6 +88,7 @@ if(!isset($_SESSION['last_research'])){
                 <h1>SCANSIONE</h1>
             </center>
         </div>
+        
         <div id="content">
             <center>
                 <p>

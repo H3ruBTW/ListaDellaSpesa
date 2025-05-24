@@ -1,7 +1,6 @@
 let title = document.getElementById("title")
 
 if(title.innerText === "PAGINA DI PANORAMICA"){
-    console.log("a")
 
     let infoN = document.getElementById("infoN")
     let infoNS = document.getElementById("infoNS")

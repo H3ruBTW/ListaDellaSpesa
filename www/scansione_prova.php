@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 session_start();
 $html = "";
 
@@ -185,11 +182,74 @@ switch ($PAGE) {
         $vitamine = [];
 
         foreach ($nutriments as $key => $value){
-            if(is_numeric($value)){
-                if($value > 0){
-                    array_push($vitamine, "Vitamina " . substr($key, $pos1=strpos($key,"_")));
+            if(strpos($key, "vitamin-") === 0 && is_numeric($value)){
+                if($value>0){
+                    $exp = explode("-", $key);
+                    $exp2 = explode("_", $exp[1]);
+
+                    $vitName = "Vitamina " . strtoupper($exp2[0]);
+
+                    if (!in_array($vitName, $vitamine)) {
+                        $vitamine[] = $vitName;
+                    }
                 }
             }
+        }
+
+        if (!empty($vitamine)) {
+            $html .= "Ottima fonte di vitamine (Presenti: ";
+
+            foreach($vitamine as $vitamina){
+                $html .= "| " . $vitamina . " |";
+            }
+
+            $html .= ")";
+            
+        }
+
+        $html .= "</span><br><b>Fattori Negativi</b><br>";
+
+        $grassi = $nutriments['saturated-fat_100g'] ?? 0;
+
+        if($grassi >= 5){
+            if($grassi >= 10){
+                $html .= "<span style='color:#FF3B3B'>Livello allarmante di Grassi Saturi ({$grassi}g per 100g)<br>";
+            } else {
+                $html .= "<span style='color:#FF4500'>Livello elevato di Grassi Saturi ({$grassi}g per 100g)<br>";
+            }
+        }
+
+        $zuc = $nutriments['sugars_100g'] ?? 0;
+
+        if($zuc >= 15){
+            if($zuc >= 22.5){
+                $html .= "<span style='color:#FF3B3B'>Livello allarmante di Zuccheri ({$zuc}g per 100g)<br>";
+            } else {
+                $html .= "<span style='color:#FF4500'>Livello elevato di Zuccheri ({$zuc}g per 100g)<br>";
+            }
+        }
+
+        $salt = $nutriments['salt_100g'] ?? 0;
+        $sodium = $nutriments['sodium_100g'] ?? 0;
+
+        if($salt >= 1.2 || $sodium >= 0.48){
+            if($salt >= 1.5 || $sodium >= 0.6){
+                $html .= "<span style='color:#FF3B3B'>Livello allarmante di Sale/Sodio ({$salt}g per 100g)<br>";
+            } else {
+                $html .= "<span style='color:#FF4500'>Livello elevato di Sale/Sodio ({$salt}g per 100g)<br>";
+            }
+        }
+
+        $grassi_trans = $nutriments['trans_fat'] ?? 0;
+
+        if($grassi_trans > 0){
+            $html .= "<span style='color:#FF3B3B'>Livello allarmante di Grassi Trans ({$grassi_trans}g per 100g)(CONSIGLIATO: 0g)<br>";
+        }
+
+        $energia = $nutriments['energy-kcal_100g'] ?? 0;
+
+        if($energia >= 400){
+            $html .= "<span style='color:#FF3B3B'>Altamente Calorico ({$energia}kcal per 100g)<br>";
         }
 
         $html .= "</p></div>";
@@ -204,13 +264,39 @@ switch ($PAGE) {
 
 function RetriveValNut ($nutrient, $nutriente, $product){
     $nutriments = $product['nutriments'];
-    $quantity = $product['quantity'] ?? 0;
+    $quantity = quantityToGrams($product['quantity'] ?? 0);
 
     $per100g = $nutriments[$nutrient . '_100g'] ?? 'N/A';
     $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
-    $perPackage = (is_numeric($quantity) && $per100g != "N/A") ? ($quantity/100)*$per100g : "N/A";
+    $perPackage = (is_numeric($per100g) && $per100g != "N/A" && $quantity > 0) ? ($quantity/100)*$per100g : "N/A";
     $unit = $nutriments[$nutrient . '_unit'] ?? '';    
     return "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($perPackage) . "</td><td>". htmlspecialchars($unit) . "</td></tr>";
+}
+
+function quantityToGrams($quantityStr) {
+    // Rimuove spazi inutili e porta tutto a minuscolo
+    $quantityStr = strtolower(trim($quantityStr));
+    
+    // Estrae il numero (anche con la virgola o punto decimale)
+    if (preg_match('/([\d,.]+)/', $quantityStr, $matches)) {
+        // Sostituisco la virgola con il punto per il floatval
+        $number = floatval(str_replace(',', '.', $matches[1]));
+    } else {
+        // Nessun numero trovato
+        return 0;
+    }
+
+    // Controlla l'unità di misura
+    if (strpos($quantityStr, 'kg') !== false) {
+        // Converti da kg a g
+        return $number * 1000;
+    } elseif (strpos($quantityStr, 'g') !== false) {
+        // Già in grammi
+        return $number;
+    } else {
+        // Nessuna unità specificata, assumo grammi
+        return $number;
+    }
 }
 
 ?>

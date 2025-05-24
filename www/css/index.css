@@ -92,3 +92,7 @@ p {
     color:white;
     font-family: Arial, sans-serif;
 }
+
+img {
+    border-radius: 10px;
+}
