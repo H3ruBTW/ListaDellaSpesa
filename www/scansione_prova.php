@@ -1,11 +1,14 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 session_start();
 $html = "";
 
 if(!empty($_GET['barcode'])){
     $BARCODE = htmlspecialchars($_GET['barcode']);
 
-    $url = "https://world.openfoodfacts.org/api/v0/product/" . $BARCODE ." .json";
+    $url = "https://world.openfoodfacts.org/api/v0/product/" . $BARCODE .".json";
 
     // Scarico i dati JSON dall'API
     $json = file_get_contents($url);
@@ -162,14 +165,31 @@ switch ($PAGE) {
         $html .= 
         <<<COD
         </table>
-        <p><b>Etichetta</b>
+        <p><b>Etichetta</b><br>
         <img src='{$nutri_img}'><br>
-        <b>Fattori Positivi</b><br><span style="color:green">
+        <b>Fattori Positivi</b><br><span style="color:#2ecc71">
         COD;
 
-        if($product["fiber_100g"]){
-            if()
-            $html .= "Ottima fonte di fibre ({$fiber} per ogni 100 grammi)";
+        $nutriments = $product['nutriments'];
+
+        $fiber = $nutriments['fiber_100g'] ?? 0;
+
+        if($fiber>=3)
+            $html .= "Ottima fonte di fibre ({$fiber} per ogni 100 grammi)(CONSIGLIATA: >3g per 100g)<br>";
+        
+        $prot = $nutriments["proteins_100g"] ?? 0;
+        
+        if($prot>=10)
+            $html .= "Ottima fonte di proteine ({$prot} per ogni 100 grammi)(CONSIGLIATA: >10g per 100g)<br>";
+        
+        $vitamine = [];
+
+        foreach ($nutriments as $key => $value){
+            if(is_numeric($value)){
+                if($value > 0){
+                    array_push($vitamine, "Vitamina " . substr($key, $pos1=strpos($key,"_")));
+                }
+            }
         }
 
         $html .= "</p></div>";
@@ -188,7 +208,7 @@ function RetriveValNut ($nutrient, $nutriente, $product){
 
     $per100g = $nutriments[$nutrient . '_100g'] ?? 'N/A';
     $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
-    $perPackage = ($quantity != 0 && $per100g != "N/A") ? ($quantity/100)*$per100g : "N/A";
+    $perPackage = (is_numeric($quantity) && $per100g != "N/A") ? ($quantity/100)*$per100g : "N/A";
     $unit = $nutriments[$nutrient . '_unit'] ?? '';    
     return "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($perPackage) . "</td><td>". htmlspecialchars($unit) . "</td></tr>";
 }
