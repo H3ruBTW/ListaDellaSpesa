@@ -80,6 +80,8 @@ if(!isset($_SESSION['last_research'])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/index.css">
+        <script src="https://unpkg.com/@ericblade/quagga2@1.2.6/dist/quagga.js" defer></script>
+        <script src="js/camera.js" defer></script>
         <title>Scansione</title>
     </head>
     <body>
@@ -97,10 +99,12 @@ if(!isset($_SESSION['last_research'])){
                 </p>
                 <?php echo $html ?>
                 <form action="scansione_prova.php" method="get">
-                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563"><br>
-                    <input id="button" type="submit" value="INVIA">
+                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" style="border-radius:10px"><br>
+                    <input id="button" type="submit" value="INVIA" style="border-radius:10px">
                 </form>
                 <br>
+                <button id="button" style="border-radius:10px"><img src="img/foto.png"></button><br><br>
+                <div id="scanner"></div>
                 <p>
                 <span style="font-size: 30px; font-weight:bold;">RISULTATI PRECEDENTI</span> <br><br>
                 <?= $results ?>
