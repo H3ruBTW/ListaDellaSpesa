@@ -109,3 +109,7 @@ img {
     display: none;
 }
 
+canvas, video {
+    width: 100%;
+}
+
