@@ -139,7 +139,9 @@ switch ($PAGE) {
         <div id="info">
         COD;
 
-        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Per Porzione Consigliata</th><th>Per confezione</th><th>Unità</th><tr>";
+        $serving_size = $product['serving_size'] ?? "Non specificata";
+
+        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Per Porzione Consigliata ({$serving_size})</th><th>Per confezione</th><th>Unità</th><tr>";
 
         $html .= RetriveValNut("energy", "Energia", $product);
 
@@ -164,7 +166,7 @@ switch ($PAGE) {
         </table>
         <p><b>Etichetta</b><br>
         <img src='{$nutri_img}'><br>
-        <b>Fattori Positivi</b><br><span style="color:#2ecc71">
+        <b>Fattori Positivi</b><br><br><span style="color:#2ecc71">
         COD;
 
         $nutriments = $product['nutriments'];
@@ -207,7 +209,7 @@ switch ($PAGE) {
             
         }
 
-        $html .= "</span><br><b>Fattori Negativi</b><br>";
+        $html .= "</span><br><b>Fattori Negativi</b><br><br>";
 
         $grassi = $nutriments['saturated-fat_100g'] ?? 0;
 
@@ -258,7 +260,50 @@ switch ($PAGE) {
         $html .= 
         <<<COD
         <p><span id="title" style="font-size: 30px; font-weight:bold;">PAGINA DEGLI INGREDENTI</span></p>
+        <div id="info">
+            <p><b>Lista degli Ingredienti</b>
         COD;
+
+        if($product['ingredients_text_it']){
+            $list = $product['ingredients_text_it'];
+        } else {
+            $list =  $product['ingredients_text'];
+            $html .= "<br><br><em>La lista non è disponibile in italiano</em>";
+        }
+
+        $label = $product['labels'] ?? "<em>Non è presente nessuna etichettaura</em>";
+
+        $html .= "<br><br>" . htmlspecialchars($list) . "<br><br>";
+        $html .= "<b>Etichettatura</b><br><br>" . $label;
+        $html .= "<br><br><b>Accordanze</b><br><br>";
+
+        $olio_palma = $product['ingredients_from_or_that_may_be_from_palm_oil_n'] ?? 0;
+
+        if($olio_palma > 0){
+            $html .= "<span style='color:#FF3B3B'>È presente un ingrediente che è <em>Olio di palma</em> o <em>derivato</em></span><br>";
+        }
+
+        $allergeni = $product['allergens_imported'] ?? "N/A";
+
+        if($allergeni != "N/A"){
+            $html .= "<span style='color:#FF4500'>Sono stati trovati i seguenti allergeni: <em>" . $allergeni . "</em></span><br>";
+        }
+
+        $additivi = $product['additives_tags'] ?? "N/A";
+
+        if(($product['additives_n'] ?? 0) > 0){
+
+            $l_additivi = "";
+
+            foreach($additivi as $add){
+                $l_additivi .= "| " . explode(":", $add)[1] ." |";
+            }
+
+            $html .= "<span style='color:#FF3B3B'>Sono stati trovati i seguenti additivi: <em>" . $l_additivi . "</em></span><br>";
+        }
+
+
+
         break;
 }
 
