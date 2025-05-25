@@ -97,7 +97,7 @@ img {
     border-radius: 10px;
 }
 
-#scanner {
+#video {
     position: relative;
     width: 100%;
     max-width: 400px;
@@ -109,11 +109,3 @@ img {
     display: none;
 }
 
-#scanner video, #scanner canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover;
-}

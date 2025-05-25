@@ -1,41 +1,29 @@
-let giàRilevato = false;
+const codeReader = new ZXing.BrowserBarcodeReader();
+const videoElement = document.getElementById('video');
+let scanning = false;
 
-function avviaScanner() {
-    giàRilevato = false;
-    document.getElementById("scanner").style.display = "block";
+document.querySelector('button#button').addEventListener('click', () => {
+  if (scanning) return;
+  scanning = true;
 
-    Quagga.init({
-        inputStream: {
-            name: "Live",
-            type: "LiveStream",
-            target: document.querySelector('#scanner'),
-            constraints: {
-            facingMode: "environment"
-            }
-        },
-        decoder: {
-            readers: ["ean_reader", "code_128_reader", "code_39_reader"]
-        }
-    }, function (err) {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        Quagga.start();
-        });
+  videoElement.style.display = "block"
 
-        Quagga.onDetected(function (data) {
-        if (giàRilevato) return;
+  codeReader.decodeOnceFromVideoDevice(null, videoElement)
+    .then(result => {
+      console.log("Codice rilevato:", result.text);
+      scanning = false;
 
-        giàRilevato = true;
-        const codice = data.codeResult.code;
-        document.getElementById("result").textContent = codice;
-        Quagga.stop();
+      // Stop webcam
+      if (videoElement.srcObject) {
+        videoElement.srcObject.getTracks().forEach(track => track.stop());
+      }
 
-        window.location.href = `scansione_prova.php?barcode=${encodeURIComponent(codice)}`;
+      // Redirect con il codice rilevato
+      window.location.href = `scansione_prova.php?barcode=${encodeURIComponent(result.text)}`;
+    })
+    .catch(err => {
+      console.error("Errore o nessun codice rilevato:", err);
+      scanning = false;
     });
-}
+});
 
-let button = document.querySelector("button#button")
-
-button.addEventListener("click", avviaScanner)

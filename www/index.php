@@ -80,7 +80,7 @@ if(!isset($_SESSION['last_research'])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/index.css">
-        <script src="https://unpkg.com/@ericblade/quagga2@1.2.6/dist/quagga.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/umd/index.min.js"></script>
         <script src="js/camera.js" defer></script>
         <title>Scansione</title>
     </head>
@@ -104,7 +104,7 @@ if(!isset($_SESSION['last_research'])){
                 </form>
                 <br>
                 <button id="button" style="border-radius:10px"><img src="img/foto.png"></button><br><br>
-                <div id="scanner"></div>
+                <video id="video" muted playsinline></video>
                 <p>
                 <span style="font-size: 30px; font-weight:bold;">RISULTATI PRECEDENTI</span> <br><br>
                 <?= $results ?>
