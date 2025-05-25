@@ -26,4 +26,3 @@ document.querySelector('button#button').addEventListener('click', () => {
       scanning = false;
     });
 });
-
