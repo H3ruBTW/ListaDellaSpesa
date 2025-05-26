@@ -86,31 +86,27 @@ if(!isset($_SESSION['last_research'])){
     </head>
     <body>
         <div id="header">
-            <center>
-                <h1>SCANSIONE</h1>
-            </center>
+            <h1>SCANSIONE</h1>
         </div>
         
         <div id="content">
-            <center>
-                <p>
-                INSERIRE IL CODICE A BARRE<br>
-                QUI SOTTO
-                </p>
-                <?php echo $html ?>
-                <form action="scansione_prova.php" method="get">
-                    <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" style="border-radius:10px"><br>
-                    <input id="button" type="submit" value="INVIA" style="border-radius:10px">
-                </form>
-                <br>
-                <button id="button" style="border-radius:10px"><img src="img/foto.png"></button><br><br>
-                <div id="video"></div>
-                <p>
-                <span style="font-size: 30px; font-weight:bold;">RISULTATI PRECEDENTI</span> <br><br>
-                <?= $results ?>
-                <br><a href="?remove=1">DELETE SEARCH HISTORY</a>
-                </p>
-            </center>
+            <p>
+            INSERIRE IL CODICE A BARRE<br>
+            QUI SOTTO
+            </p>
+            <?php echo $html ?>
+            <form action="scansione_prova.php" method="get">
+                <input id="input" type="text" name="barcode" placeholder="ES.: 2387456723563" style="border-radius:10px"><br>
+                <input id="button" type="submit" value="INVIA" style="border-radius:10px">
+            </form>
+            <br>
+            <button id="button" style="border-radius:10px"><img src="img/foto.png"></button><br><br>
+            <div id="video"></div>
+            <p>
+            <span style="font-size: 30px; font-weight:bold;">RISULTATI PRECEDENTI</span> <br><br>
+            <?= $results ?>
+            <br><a href="?remove=1">DELETE SEARCH HISTORY</a>
+            </p>
         </div>
     </body>
 </html>

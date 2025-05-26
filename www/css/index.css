@@ -11,6 +11,7 @@ body, html {
     color: #fff;
     padding: 1% 2%;
     margin-bottom: 0;
+    text-align: center;
 }
 
 h1 {
@@ -26,6 +27,7 @@ h1 {
     padding: 10px;
     border-radius: 10px;
     border: solid #fff;
+    text-align: center;
 }
 
 #input{
@@ -76,8 +78,10 @@ a:active {
     padding: 10px;
     border-radius: 10px;
     border: solid white;
-    width: 200px;
+    width: 100%;
+    max-width: 200px;
     margin-bottom: 5px;
+    margin: 0 auto;
 }
 
 #ris:hover {

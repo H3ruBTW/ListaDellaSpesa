@@ -348,63 +348,67 @@ function quantityToGrams($quantityStr) {
 
 <!DOCTYPE html>
 <html lang="it">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/end.css">
-        <link rel="stylesheet" href="css/table.css">
-        <script src="js/box.js" defer></script>
-        <title>Scansione</title>
-    </head>
-    <body>
-        <div id="header">
-            <center>
-                <a href="index.php"><h1>PRODOTTO</h1></a>
-            </center>
-        </div>
-        <div id="pages">
-            <nav>
-                <ul>
-                    <li>
-                        <!-- MOSTRA GLI ASPETTI PRINCIPALI DEL PRODOTTO CON I VOTI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
-                            <input type="text" value="PANORAMICA" name="page" hidden>
-                            <input id="button" type="submit" value="PANORAMICA">
-                        </form>
-                    </li>
-                    <li>
-                        <!-- MOSTRA I VALORI NUTRIZIONALI -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
-                            <input type="text" value="VALORI NUTRIZIONALI" name="page" hidden>
-                            <input id="button" type="submit" value="VALORI NUTRIZIONALI">
-                        </form>
-                    </li>
-                    <li>
-                        <!-- MOSTRA GLI INGREDIENTI DEL PRODOTTO -->
-                        <form action=<?php echo $_SERVER['PHP_SELF'] . "?barcode=" . $BARCODE ?> method="post">
-                            <input type="text" value="INGREDIENTI" name="page" hidden>
-                            <input id="button" type="submit" value="INGREDIENTI">
-                        </form>
-                    </li>
-                </ul>
-            </nav> 
-        </div>
-        <div id="content">
-            <center>
-                <?php echo $html ?>
-            </center>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scansione</title>
+    <link rel="stylesheet" href="css/end.css">
+    <link rel="stylesheet" href="css/table.css">
+    <script src="js/box.js" defer></script>
+</head>
+<body>
 
-        <div id="boxN" class="box">
-            <p>Il Nutri-Score è un’etichetta a colori che valuta la qualità nutrizionale degli alimenti su una scala da A a E.<br> 
-                Il punteggio tiene conto di nutrienti “positivi” come fibre, proteine e frutta/verdura, e nutrienti “negativi” come zuccheri, grassi saturi e sale.<br> 
-                Un Nutri-Score A indica un prodotto nutrizionalmente più sano, mentre un E segnala un alimento da consumare con moderazione.</p>
-        </div>
+    <header id="header">
+        <h1 style="text-align: center;">
+            <a href="index.php" style="color: inherit; text-decoration: none;">PRODOTTO</a>
+        </h1>
+    </header>
 
-        <div id="boxNS" class="box">
-            <p>Il NOVA Score classifica gli alimenti in base al grado di trasformazione industriale.<br> 
-                I prodotti sono divisi in quattro gruppi: 1 per alimenti naturali o minimamente processati, fino a 4 per alimenti ultra-processati che spesso contengono additivi, zuccheri o grassi aggiunti.<br> 
-                Questo sistema aiuta a comprendere l’impatto della lavorazione sulla qualità e salubrità degli alimenti.</p>
-        </div>
-    </body>
+    <nav id="pages">
+        <ul>
+            <li>
+                <form action="<?php echo $_SERVER['PHP_SELF'] . '?barcode=' . $BARCODE ?>" method="post">
+                    <input type="hidden" name="page" value="PANORAMICA">
+                    <input id="button" type="submit" value="PANORAMICA">
+                </form>
+            </li>
+            <li>
+                <form action="<?php echo $_SERVER['PHP_SELF'] . '?barcode=' . $BARCODE ?>" method="post">
+                    <input type="hidden" name="page" value="VALORI NUTRIZIONALI">
+                    <input id="button" type="submit" value="VALORI NUTRIZIONALI">
+                </form>
+            </li>
+            <li>
+                <form action="<?php echo $_SERVER['PHP_SELF'] . '?barcode=' . $BARCODE ?>" method="post">
+                    <input type="hidden" name="page" value="INGREDIENTI">
+                    <input id="button" type="submit" value="INGREDIENTI">
+                </form>
+            </li>
+        </ul>
+    </nav>
+
+    <div style="text-align: center;" id="content">
+        <?php echo $html ?>
+    </div>
+  
+
+    <!-- Tooltip informativo: Nutri-Score -->
+    <div id="boxN" class="box">
+        <p>
+            Il Nutri-Score è un’etichetta a colori che valuta la qualità nutrizionale degli alimenti su una scala da A a E.<br> 
+            Il punteggio tiene conto di nutrienti “positivi” come fibre, proteine e frutta/verdura, e nutrienti “negativi” come zuccheri, grassi saturi e sale.<br> 
+            Un Nutri-Score A indica un prodotto nutrizionalmente più sano, mentre un E segnala un alimento da consumare con moderazione.
+        </p>
+    </div>
+
+    <!-- Tooltip informativo: NOVA Score -->
+    <div id="boxNS" class="box">
+        <p>
+            Il NOVA Score classifica gli alimenti in base al grado di trasformazione industriale.<br> 
+            I prodotti sono divisi in quattro gruppi: 1 per alimenti naturali o minimamente processati, fino a 4 per alimenti ultra-processati che spesso contengono additivi, zuccheri o grassi aggiunti.<br> 
+            Questo sistema aiuta a comprendere l’impatto della lavorazione sulla qualità e salubrità degli alimenti.
+        </p>
+    </div>
+
+</body>
 </html>
