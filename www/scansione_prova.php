@@ -141,19 +141,19 @@ switch ($PAGE) {
 
         $serving_size = $product['serving_size'] ?? "Non specificata";
 
-        $html .= "<table><tr><th>Nutriente</th><th>Per 100g</th><th>Per Porzione Consigliata ({$serving_size})</th><th>Per confezione</th><th>Unità</th><tr>";
+        $html .= "<div id=\"table\"><table><tr id=\"base\"><th>Nutriente</th><th>Per 100g</th><th>Per Porzione Consigliata ({$serving_size})</th><th>Per confezione</th><th>Unità</th><tr>";
 
         $html .= RetriveValNut("energy", "Energia", $product);
 
-        $html .= RetriveValNut("energy-kcal", "--->", $product);
+        $html .= RetriveValNut("energy-kcal", "Energia 2", $product);
 
         $html .= RetriveValNut("fat", "Grassi", $product);
 
-        $html .= RetriveValNut("saturated-fat", "---> Di Cui Saturi", $product);
+        $html .= RetriveValNut("saturated-fat", "Di Cui Grassi Saturi", $product);
 
         $html .= RetriveValNut("carbohydrates", "Carboidrati", $product);
         
-        $html .= RetriveValNut("sugars", "---> Di Cui Zuccheri", $product);
+        $html .= RetriveValNut("sugars", "Di Cui Zuccheri", $product);
         
         $html .= RetriveValNut("proteins", "Proteine", $product);
         
@@ -163,7 +163,7 @@ switch ($PAGE) {
 
         $html .= 
         <<<COD
-        </table>
+        </table></div><br>
         <p><b>Etichetta</b><br>
         <img src='{$nutri_img}'><br>
         <b>Fattori Positivi</b><br><br><span style="color:#2ecc71">
@@ -315,7 +315,13 @@ function RetriveValNut ($nutrient, $nutriente, $product){
     $perServing = $nutriments[$nutrient . '_serving'] ?? 'N/A';
     $perPackage = (is_numeric($per100g) && $per100g != "N/A" && $quantity > 0) ? ($quantity/100)*$per100g : "N/A";
     $unit = $nutriments[$nutrient . '_unit'] ?? '';    
-    return "<tr><td>" . htmlspecialchars($nutriente) . "</td><td>" . htmlspecialchars($per100g) . "</td><td>" . htmlspecialchars($perServing) . "</td><td>" . htmlspecialchars($perPackage) . "</td><td>". htmlspecialchars($unit) . "</td></tr>";
+    return "<tr>
+                <td data-label=\"Nutriente\">" . htmlspecialchars($nutriente) . "</td>
+                <td data-label=\"Per 100g\">" . htmlspecialchars($per100g) . "</td>
+                <td data-label=\"Per Porzione\">" . htmlspecialchars($perServing) . "</td>
+                <td data-label=\"Per Confezione\">" . htmlspecialchars($perPackage) . "</td>
+                <td data-label=\"Unità\">" . htmlspecialchars($unit) . "</td>
+            </tr>";
 }
 
 function quantityToGrams($quantityStr) {
